@@ -6,12 +6,12 @@ namespace Basics
 {
     public class LinkedList<T>
     {
-        protected class Node<T>
+        protected class Node<TValue>
         {
-            public T Value { get; }
-            public Node<T> Next { get; set; }
+            public TValue Value { get; }
+            public Node<TValue> Next { get; set; }
 
-            public Node(T value, Node<T> next)
+            public Node(TValue value, Node<TValue> next)
             {
                 Value = value;
                 Next = next;
@@ -20,6 +20,8 @@ namespace Basics
 
         protected Node<T> Head { get; set; }
         protected Node<T> Foot { get; set; }
+
+        public int Count { get; private set; } = 0;
 
         public LinkedList()
         {
@@ -37,6 +39,7 @@ namespace Basics
                 Foot.Next = new Node<T>(value, null);
                 Foot = Foot.Next;
             }
+            Count = Count + 1;
         }
     }
 }
