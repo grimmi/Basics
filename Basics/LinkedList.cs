@@ -6,7 +6,7 @@ namespace Basics
 {
     public class LinkedList<T>
     {
-        private class Node<T>
+        protected class Node<T>
         {
             public T Value { get; }
             public Node<T> Next { get; set; }
@@ -18,17 +18,17 @@ namespace Basics
             }
         }
 
-        private Node<T> Head { get; set; }
-        private Node<T> Foot { get; set; }
+        protected Node<T> Head { get; set; }
+        protected Node<T> Foot { get; set; }
 
         public LinkedList()
         {
 
         }
 
-        public void Insert(T value)
+        public virtual void Insert(T value)
         {
-            if(Head == null)
+            if (Head == null)
             {
                 Head = Foot = new Node<T>(value, null);
             }
@@ -38,20 +38,5 @@ namespace Basics
                 Foot = Foot.Next;
             }
         }
-
-        private Node<T> GetFoot()
-        {
-            if(Head == null)
-            {
-                return null;
-            }
-
-            var node = Head;
-            while(node.Next != null)
-            {
-                node = node.Next;
-            }
-
-            return node;
-        }
     }
+}
