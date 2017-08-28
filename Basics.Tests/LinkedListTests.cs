@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Basics.Tests
 {
@@ -52,6 +53,23 @@ namespace Basics.Tests
             }
 
             Assert.AreEqual(expectedCount, list.Count);
+        }
+
+        [Test]
+        public void Enumerate_FilledList_ShouldIterateThroughAllValues()
+        {
+            var list = new StringList();
+            list.Insert("a");
+            list.Insert("b");
+            list.Insert("c");
+
+            var inserted = new List<string>();
+            foreach(var value in list)
+            {
+                inserted.Add(value);
+            }
+
+            CollectionAssert.AreEqual(new[] { "a", "b", "c" }, inserted);
         }
     }
 }

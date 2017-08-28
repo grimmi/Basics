@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Basics
 {
-    public class LinkedList<T>
+    public class LinkedList<T> : IEnumerable<T>
     {
         protected class Node<TValue>
         {
@@ -15,6 +16,49 @@ namespace Basics
             {
                 Value = value;
                 Next = next;
+            }
+        }
+
+        protected class LinkedEnumerator : IEnumerator<T>
+        {
+            private bool enumerationStarted = false;
+            private Node<T> currentNode;
+            public T Current => enumerationStarted
+                ? currentNode.Value
+                : throw new InvalidOperationException("enumeration not started!");
+
+            object IEnumerator.Current => Current;
+
+
+            private LinkedList<T> source;
+
+            public LinkedEnumerator(LinkedList<T> list)
+            {
+                source = list;
+            }
+
+            public void Dispose()
+            {
+            }
+
+            public bool MoveNext()
+            {
+                if (!enumerationStarted)
+                {
+                    currentNode = source.Head;
+                }
+                else
+                {
+                    currentNode = currentNode.Next;
+                }
+                enumerationStarted = true;
+                return currentNode != null;
+            }
+
+            public void Reset()
+            {
+                enumerationStarted = false;
+                currentNode = null;
             }
         }
 
@@ -40,6 +84,16 @@ namespace Basics
                 Foot = Foot.Next;
             }
             Count = Count + 1;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new LinkedEnumerator(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
