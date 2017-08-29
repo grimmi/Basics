@@ -7,7 +7,7 @@ namespace Basics
 {
     public class LinkedList<T> : IEnumerable<T>
     {
-        protected class Node<TValue>
+        protected class Node<TValue> : IEquatable<Node<T>>
         {
             public TValue Value { get; }
             public Node<TValue> Next { get; set; }
@@ -16,6 +16,16 @@ namespace Basics
             {
                 Value = value;
                 Next = next;
+            }
+
+            public bool Equals(Node<T> other)
+            {
+                return Value.Equals(other.Value);
+            }
+
+            public override int GetHashCode()
+            {
+                return Value.GetHashCode();
             }
         }
 
@@ -86,14 +96,8 @@ namespace Basics
             Count = Count + 1;
         }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return new LinkedEnumerator(this);
-        }
+        public IEnumerator<T> GetEnumerator() => new LinkedEnumerator(this);
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
