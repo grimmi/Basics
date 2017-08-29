@@ -96,6 +96,23 @@ namespace Basics
             Count = Count + 1;
         }
 
+        public virtual void InsertAfter(T after, T value)
+        {
+            var node = GetNode(after);
+            var newNode = new Node<T>(value, node.Next);
+            node.Next = newNode;
+        }
+
+        protected virtual Node<T> GetNode(T value)
+        {
+            var node = Head;
+            while(node != null && !node.Value.Equals(value))
+            {
+                node = node.Next;
+            }
+            return node ?? throw new ValueNotFoundException(value);
+        }
+
         public IEnumerator<T> GetEnumerator() => new LinkedEnumerator(this);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

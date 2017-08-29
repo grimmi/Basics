@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Basics.Tests
 {
@@ -70,6 +71,37 @@ namespace Basics.Tests
             }
 
             CollectionAssert.AreEqual(new[] { "a", "b", "c" }, inserted);
+        }
+
+        [Test]
+        public void InsertAfter_InsertingInTheMiddle_InsertsElementAtTheCorrectSpot()
+        {
+            var list = new StringList();
+            list.Insert("a");
+            list.Insert("b");
+            list.InsertAfter("a", "z");
+
+            Assert.AreEqual("z", list.Skip(1).First());
+        }
+
+        [Test]
+        public void InsertAfter_InsertingAtTheEnd_ShouldMakeValueLastElement()
+        {
+            var list = new StringList();
+            list.Insert("a");
+            list.InsertAfter("a", "b");
+
+            Assert.AreEqual("b", list.Last());
+        }
+
+        [Test]
+        public void InsertAfter_InsertingAfterNotExistingElement_ShouldThrowValueNotFoundException()
+        {
+            var list = new StringList();
+            list.Insert("a");
+            var ex = Assert.Throws<ValueNotFoundException>(() => list.InsertAfter("b", "c"));
+
+            StringAssert.Contains(" b", ex.Message);
         }
     }
 }
