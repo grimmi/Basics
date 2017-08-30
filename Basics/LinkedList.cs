@@ -47,9 +47,7 @@ namespace Basics
                 source = list;
             }
 
-            public void Dispose()
-            {
-            }
+            public void Dispose() { }
 
             public bool MoveNext()
             {
