@@ -21,7 +21,7 @@ namespace Basics.Tests
             trie.Insert("a");
 
             Assert.AreEqual(1, trie.HeadNode.OutEdges.Count);
-            Assert.AreEqual("a", trie.HeadNode.OutEdges.First().Value);
+            Assert.AreEqual("a", trie.HeadNode.OutEdges.First().Value.Value);
         }
 
         [Test]
@@ -31,17 +31,28 @@ namespace Basics.Tests
             trie.Insert("ab");
 
             Assert.AreEqual(1, trie.HeadNode.OutEdges.Count);
-            Assert.AreEqual("a", trie.HeadNode.OutEdges.First().Value);
+            Assert.NotNull(trie.HeadNode.OutEdges["a"]);
 
-            var aNode = trie.HeadNode.OutEdges.First().To;
+            var aNode = trie.HeadNode.OutEdges["a"].To;
             Assert.NotNull(aNode);
             Assert.AreEqual("a", aNode.Value);
             Assert.AreEqual(1, aNode.OutEdges.Count);
-            Assert.AreEqual("b", aNode.OutEdges.First().Value);
+            Assert.NotNull(aNode.OutEdges["b"]);
 
-            var bNode = aNode.OutEdges.First().To;
+            var bNode = aNode.OutEdges["b"].To;
             Assert.NotNull(bNode);
             Assert.AreEqual("ab", bNode.Value);
+        }
+
+        [Test]
+        public void Insert_TwoDifferentStrings_ShouldMakeTwoEdges()
+        {
+            var trie = new TestTrie();
+            trie.Insert("a");
+            trie.Insert("b");
+
+            Assert.AreEqual(2, trie.HeadNode.OutEdges.Count);
+            CollectionAssert.AreEquivalent(new[] { "a", "b" }, trie.HeadNode.OutEdges.Select(e => e.Value.Value));
         }
     }
 }

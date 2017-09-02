@@ -25,7 +25,7 @@ namespace Basics
         {
             public string Value { get; }
             public TrieEdge InEdge { get; }
-            public List<TrieEdge> OutEdges { get; } = new List<TrieEdge>();
+            public Dictionary<string, TrieEdge> OutEdges { get; } = new Dictionary<string, TrieEdge>();
 
             public TrieNode(IEnumerable<TrieEdge> edges)
             {
@@ -71,14 +71,16 @@ namespace Basics
         {
             if (string.IsNullOrEmpty(value)) return;
 
-            if(node.OutEdges.Any(e => value.StartsWith(e.Value)))
+            TrieEdge outEdge;
+            var firstCharAsString = value[0].ToString();
+            if(node.OutEdges.TryGetValue(firstCharAsString, out outEdge))
             {
-                Insert(node.OutEdges.First(e => value.StartsWith(e.Value)).To, value.Substring(1));
+                Insert(outEdge.To, value.Substring(1));
             }
             else
             {
                 var newEdge = new TrieEdge(node, value.Substring(0, 1));
-                node.OutEdges.Add(newEdge);
+                node.OutEdges.Add(firstCharAsString, newEdge);
                 Insert(newEdge.To, value.Substring(1));
             }
         }
