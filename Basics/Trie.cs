@@ -35,15 +35,14 @@ namespace Basics
 
             public IEnumerable<TrieEdge> GetPath()
             {
-                var edge = InEdge;
-                var path = new List<TrieEdge>();
-                while(edge?.From != null)
+                if(InEdge?.From != null)
                 {
-                    path.Add(edge);
-                    edge = edge.From.InEdge;
+                    foreach(var edge in InEdge.From.GetPath())
+                    {
+                        yield return edge;
+                    }
+                    yield return InEdge;
                 }
-
-                return path.AsEnumerable().Reverse();
             }
         }
 
