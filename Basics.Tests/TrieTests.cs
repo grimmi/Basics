@@ -55,22 +55,20 @@ namespace Basics.Tests
             CollectionAssert.AreEquivalent(new[] { "a", "b" }, trie.HeadNode.OutEdges.Select(e => e.Value.Value));
         }
 
-        [Test]
-        public void Contains_ContainedString_ReturnsTrue()
+
+        [TestCase("test", "test", true)]
+        [TestCase("test", "tes", true)]
+        [TestCase("test", "te", true)]
+        [TestCase("test", "t", true)]
+        [TestCase("test", "", true)]
+        [TestCase("test", "hello", false)]
+        [TestCase("test", "est", false)]
+        public void Contains_StringInput_ShouldReturnCorrectResult(string seed, string search, bool expected)
         {
             var trie = new Trie();
-            trie.Insert("test");
+            trie.Insert(seed);
 
-            Assert.True(trie.Contains("test"));
-        }
-
-        [Test]
-        public void Contains_NotContainedString_ReturnsFalse()
-        {
-            var trie = new Trie();
-            trie.Insert("test");
-
-            Assert.False(trie.Contains("hello"));
+            Assert.AreEqual(expected, trie.Contains(search));
         }
 
         [Test]

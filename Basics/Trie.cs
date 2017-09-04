@@ -85,6 +85,11 @@ namespace Basics
 
         public bool Contains(string text)
         {
+            if(string.IsNullOrWhiteSpace(text))
+            {
+                return true;
+            }
+
             var node = Head;
             for(int i = 0; i < text.Length; i++)
             {
