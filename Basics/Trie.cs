@@ -82,5 +82,22 @@ namespace Basics
                 Insert(newEdge.To, value.Substring(1));
             }
         }
+
+        public bool Contains(string text)
+        {
+            var node = Head;
+            for(int i = 0; i < text.Length; i++)
+            {
+                if (node.OutEdges.TryGetValue(text[i].ToString(), out TrieEdge edge))
+                {
+                    node = edge.To;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

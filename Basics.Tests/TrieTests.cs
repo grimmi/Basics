@@ -54,5 +54,31 @@ namespace Basics.Tests
             Assert.AreEqual(2, trie.HeadNode.OutEdges.Count);
             CollectionAssert.AreEquivalent(new[] { "a", "b" }, trie.HeadNode.OutEdges.Select(e => e.Value.Value));
         }
+
+        [Test]
+        public void Contains_ContainedString_ReturnsTrue()
+        {
+            var trie = new Trie();
+            trie.Insert("test");
+
+            Assert.True(trie.Contains("test"));
+        }
+
+        [Test]
+        public void Contains_NotContainedString_ReturnsFalse()
+        {
+            var trie = new Trie();
+            trie.Insert("test");
+
+            Assert.False(trie.Contains("hello"));
+        }
+
+        [Test]
+        public void Contains_EmptyTrie_ShouldReturnFalse()
+        {
+            var trie = new Trie();
+
+            Assert.False(trie.Contains("test"));
+        }
     }
 }
