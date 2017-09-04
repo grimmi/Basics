@@ -70,9 +70,8 @@ namespace Basics
         {
             if (string.IsNullOrEmpty(value)) return;
 
-            TrieEdge outEdge;
             var firstCharAsString = value[0].ToString();
-            if(node.OutEdges.TryGetValue(firstCharAsString, out outEdge))
+            if (node.OutEdges.TryGetValue(firstCharAsString, out TrieEdge outEdge))
             {
                 Insert(outEdge.To, value.Substring(1));
             }
