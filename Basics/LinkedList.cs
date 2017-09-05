@@ -5,30 +5,8 @@ using System.Text;
 
 namespace Basics
 {
-    public class LinkedList<T> : IEnumerable<T>
+    public partial class LinkedList<T> : IEnumerable<T>
     {
-        protected class Node<TValue> : IEquatable<Node<T>>
-        {
-            public TValue Value { get; }
-            public Node<TValue> Next { get; set; }
-
-            public Node(TValue value, Node<TValue> next)
-            {
-                Value = value;
-                Next = next;
-            }
-
-            public bool Equals(Node<T> other)
-            {
-                return Value.Equals(other.Value);
-            }
-
-            public override int GetHashCode()
-            {
-                return Value.GetHashCode();
-            }
-        }
-
         protected class LinkedEnumerator : IEnumerator<T>
         {
             private bool enumerationStarted = false;
