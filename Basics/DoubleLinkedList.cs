@@ -1,13 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Basics
 {
-    public class DoubleLinkedList<T> where T : IComparable<T>
+    public class DoubleLinkedList<T> : IEnumerable<T> where T : IComparable<T>
     {
         protected DoubleLinkNode<T> Head { get; set; }
         protected DoubleLinkNode<T> Foot { get; set; }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            var node = Head;
+            while(node != null)
+            {
+                yield return node.Value;
+                node = node.Next;
+            }
+        }
 
         public void InsertAtEnd(T value)
         {
@@ -42,10 +53,19 @@ namespace Basics
             }
 
             var newNode = new DoubleLinkNode<T>(value);
-            newNode.Previous = node;
-            newNode.Next = node.Next;
-            node.Next.Previous = newNode;
-            node.Next = newNode;
+            newNode.Previous = node.Previous;
+            newNode.Next = node;
+            if(node.Next != null)
+            {
+                node.Previous = newNode;
+            }
+
+            if(node == Head)
+            {
+                Head = newNode;
+            }
         }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
